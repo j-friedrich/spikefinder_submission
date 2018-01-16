@@ -12,8 +12,8 @@ from sys import path, argv
 path.append('spikefinder-python/')
 path.append('OASIS/')
 from spikefinder import score
-from oasis import oasisAR2
-from functions import estimate_parameters
+from oasis.oasis_methods import oasisAR2
+from oasis.functions import estimate_parameters
 
 
 # grab and unzip data
@@ -113,16 +113,16 @@ def run(dataset=1, tau=30, b=False, verbose=0, optimizer='adadelta'):
     # parameters for each dataset obtained by Bayesian optimization / parameter sweep
     # [decay(kernel), rise(kernel), percentile(background), window_length(background),
     # shift(sparsity), noise_multiplier(sparsity)]
-    params = np.array([[0.992799, 0.0422006, 26, 5000, 45.5894, -0.564023],
-                       [0.991437, 0.295501, 20, 5000, 12.7123, -0.0696729],
-                       [0.996053, 0.168118, 20, 5000, 8.72845, -0.441365],
-                       [0.98517, 0.0130467, 20, 5000, 13.854, 0.0334399],
-                       [0.994729, 0.886275, 21, 5000, 22.4001, -0.550495],
-                       [0.988732, 0.584366, 28, 4000, 4.15617, -0.238822],
-                       [0.967307, 0.47429, 29, 4000, 0.0780378, 0.222812],
-                       [0.992499, 0.795482, 23, 5000, 20.6628, -0.232531],
-                       [0.99304, 0.141836, 22, 4000, 41.1818, 0.000333936],
-                       [0.975445, 0.531893, 27, 4000, 45.6739, -0.352258]])
+    params = [[0.992799, 0.0422006, 26, 5000, 45.5894, -0.564023],
+              [0.991437, 0.295501, 20, 5000, 12.7123, -0.0696729],
+              [0.996053, 0.168118, 20, 5000, 8.72845, -0.441365],
+              [0.98517, 0.0130467, 20, 5000, 13.854, 0.0334399],
+              [0.994729, 0.886275, 21, 5000, 22.4001, -0.550495],
+              [0.988732, 0.584366, 28, 4000, 4.15617, -0.238822],
+              [0.967307, 0.47429, 29, 4000, 0.0780378, 0.222812],
+              [0.992499, 0.795482, 23, 5000, 20.6628, -0.232531],
+              [0.99304, 0.141836, 22, 4000, 41.1818, 0.000333936],
+              [0.975445, 0.531893, 27, 4000, 45.6739, -0.352258]]
     trueS = np.array(pd.read_csv('spikefinder.train/' + str(dataset) + '.train.spikes.csv')).T
     # RUN OASIS
     infS = runOASIS(dataset, *params[dataset - 1])
